@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: echo
+  labels:
+    app: echo
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: echo
+  template:
+    metadata:
+      name: simple-echo
+      labels:
+        app: echo
+    spec:
+      containers:
+      - name: nginx
+        image: gihyodocker/nginx-proxy:latest
+        env:
+        - name: BACKEND_HOST
+          value: localhost:8000
+        ports:
+        - containerPort: 80
+      - name: echo
+        image: gihyodocker/echo:lastest
+        ports:
+        - containerPort: 8080
